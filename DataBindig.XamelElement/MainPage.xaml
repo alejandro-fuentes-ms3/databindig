@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DataBindig.XamelElement.MainPage">
+
+    <Grid RowDefinitions="auto,*" Padding="24">
+
+        <Grid Grid.Row="0" Grid.Column="0" ColumnDefinitions="auto,*" ColumnSpacing="8">
+
+            <Label Text="Escribe lo que piense" Grid.Row="0" Grid.Column="0"/>
+            <Entry Grid.Row="0" Grid.Column="1" Background="LightGray" TextChanged="Entry_TextChanged_1" x:Name="TextEntry" />
+        </Grid>
+        <VerticalStackLayout Grid.Column="0" Grid.Row="1">
+            <Label Text="Esto es lo q escribiste: " />
+            <Label Text="Aqui se va a ver lo que escribiste: " HorizontalOptions="Center" FontSize="Small" FontAttributes="Italic" x:Name="EnteredTextLabel"/>
+
+
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>
