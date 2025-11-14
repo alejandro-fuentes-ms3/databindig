@@ -1,126 +1,196 @@
 using databainig.coleccion.models;
 using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace databainig.coleccion.views;
 
 public partial class Mainpage : ContentPage
+
 {
+
     public ObservableCollection<OrigenDePaquete> Origenes { get; }
+    private OrigenDePaquete? _origenSeleccionado = null;
+    private string? _nombreDelOrigen = string.Empty;
+    private string? _rutaDelOrigen = string.Empty;
+
+
+    public OrigenDePaquete? OrigenSeleccionado
+    {
+        get => _origenSeleccionado;
+        set
+        {
+            if (_origenSeleccionado != value)
+            {
+                _origenSeleccionado = value;
+                OnPropertyChanged(nameof(OrigenSeleccionado));
+            }
+        }
+    }
+    public string NombreDelOrigen
+    {
+        get => _nombreDelOrigen;
+        set
+        {
+            if (_nombreDelOrigen != value)
+            {
+
+                _nombreDelOrigen = value;
+                OnPropertyChanged(nameof(NombreDelOrigen));
+            }
+        }
+    }
+    public string RutaDeOrigen
+    {
+        get => _rutaDelOrigen;
+        set
+        {
+            if (_rutaDelOrigen != value)
+            {
+
+                _rutaDelOrigen = value;
+                OnPropertyChanged(nameof(RutaDeOrigen));
+            }
+        }
+    }
     public Mainpage()
     {
         InitializeComponent();
+
+        OrigenSeleccionado = null;
+
         OrigenDePaquete? origenSeleccionado = null;
 
         Origenes = new ObservableCollection<OrigenDePaquete>();
         CargarDatos();
-        OrigenesListView.ItemsSource = Origenes;
+        BindingContext = this;
+        OrigenesLisView.ItemsSource = Origenes;
         if (Origenes.Count > 0)
         {
             origenSeleccionado = Origenes[0];
-
         }
-        BindingContext = this;
-        //////OrigenesListView.ItemsSource = _origenes;
-        //////OrigenesListView.SelectedItem = origenSeleccionado;
+
+        //       OrigenesLisView.ItemsSource = _origenes;
+        //     OrigenesLisView.SelectedItem = origenSeleccionado;
 
     }
-
     private void CargarDatos()
     {
-        Origenes.Add(new OrigenDePaquete
+        Origenes.Add(new OrigenDePaquete()
         {
-            nombre = "nuget.org",
-            origen = "https://api.nuget.org/v3/index.json",
+            Nombre = "Nuger.org",
+            Origen = "https://api.nuget.org/v3/index/json",
+            EstaHabilitado = true
+
+
+
+        });
+        Origenes.Add(new OrigenDePaquete()
+        {
+            Nombre = "Microsoft Visual Studio Offline Packages",
+            Origen = "C:\\Program Files(x86)\\Microsoft SDKs\\NugetPackages",
             EstaHabilitado = false
+
+
+
         });
 
-        Origenes.Add(new OrigenDePaquete
-        {
-            nombre = "Microsoft Visual Studio Offline Packages",
-            origen = @"C:\Program Files (x86)\Microsoft SDKs \NuGetPackages",
-            EstaHabilitado = false
-        });
 
     }
 
-    private void OnAgregarButtonCliked(object sender, EventArgs e)
+    private void OnAgregarButton_Clicked(object sender, EventArgs e)
     {
         var origen = new OrigenDePaquete
+
         {
-            nombre = "Origen del paquete",
-            origen = "URL o ruta del origen del paquete",
+            Nombre = "Origen del paquete",
+            Origen = "URL o ruta origen del paquete",
             EstaHabilitado = false
+
+
+
         };
         Origenes.Add(origen);
-
-        //OrigenesListView.ItemsSource = null;
-        //OrigenesListView.ItemsSource = _origenes;
-        //OrigenesListView.SelectedItem = origen;
-
-
+        OrigenSeleccionado = origen;
     }
 
-    private void OnDelateButtonCliked(object sender, EventArgs e)
+    private void OnDeleteButton_Clicked(object sender, EventArgs e)
     {
-        //OrigenDePaquete seleccionado = (OrigenDePaquete)OrigenesListView.SelectedItem;
-        OrigenDePaquete seleccionado = null;
-        if (seleccionado != null)
+        OrigenDePaquete seleccionado = (OrigenDePaquete)OrigenesLisView.SelectedItem;
+
         {
-            var indice = Origenes.IndexOf(seleccionado);
-            OrigenDePaquete? nuevoSeleccionado;
-            if (Origenes.Count > 1)
+
+
+            if (OrigenSeleccionado != null)
             {
-                //Hat mas de un elemento
-                if (indice < Origenes.Count - 1)
-                {//El elemento seleccionado no es el ultimo
-                    nuevoSeleccionado = Origenes[indice + 1];
+                var indice = Origenes.IndexOf(OrigenSeleccionado);
+                OrigenDePaquete? nuevoseleccionado;
+                if (Origenes.Count > 1)
+                {
+                    //Hay mas de un elemento
+                    if (indice < Origenes.Count - 1)
+                    {
+                        //El elemento seleccionado no es el ultimo
+                        nuevoseleccionado = Origenes[indice + 1];
+
+
+                    }
+                    else
+                    {
+                        //El elemento seleccionado es el ultimo
+                        nuevoseleccionado = Origenes[indice - 1];
+
+                    }
+
                 }
                 else
-                {//El elemento seleccionadp es el ultimo
-                    nuevoSeleccionado = Origenes[indice - 1];
+                {
+                    //Solo hay un elemento
+                    nuevoseleccionado = null;
 
                 }
-            }
-            else
-            {//Solo hay un elemento
-                nuevoSeleccionado = null;
-            }
-            Origenes.Remove(seleccionado);
+                Origenes.Remove(OrigenSeleccionado);
+                OrigenSeleccionado = nuevoseleccionado;
 
-            //OrigenesListView.ItemsSource = null;
-            //OrigenesListView.ItemsSource = _origenes;
-            //OrigenesListView.SelectedItem = nuevoSeleccionado;
+
+            }
         }
-
     }
 
-    private void OrigenesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+    private void OrigenesLisView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //OrigenDePaquete origenSelecccionado = (OrigenDePaquete)OrigenesListView.SelectedItem;
-        //if (origenSelecccionado != null)
-        //{
-        //    NombreEntry.Text = origenSelecccionado.nombre;
-        //    OrigenEntry.Text = origenSelecccionado.origen;
-        //}
-        //else
-        //{
-        //    NombreEntry.Text = string.Empty;
-        //    OrigenEntry.Text = string.Empty;
-        //}
+        //origenpaquete origenseleccionado = origeneslisview.selecteditem as origenpaquete;
+        //otra manera de escribirlo:
+        //origenpaquete origenseleccionado = (origenpaquete)origeneslisview.selecteditem;
+
+        if (OrigenSeleccionado != null)
+        {
+
+            NombreDelOrigen = OrigenSeleccionado.Nombre;
+            RutaDeOrigen = OrigenSeleccionado.Origen;
+
+        }
+        else
+        {
+            NombreDelOrigen = string.Empty;
+            RutaDeOrigen = string.Empty;
+        }
+
     }
 
     private void OnActualizarButton_Clicked(object sender, EventArgs e)
     {
-        //    OrigenDePaquete origenSeleccionado = OrigenesListView.SelectedItem as OrigenDePaquete;
-        //    if (origenSeleccionado != null)
-        //    {
-        //        origenSeleccionado.nombre = NombreEntry.Text;
-        //        origenSeleccionado.origen = OrigenEntry.Text;
-        //        OrigenesListView.ItemsSource = null;
-        //        OrigenesListView.ItemsSource = _origenes;
-        //        OrigenesListView.SelectedItem = origenSeleccionado;
-        //    }
-        //}}
 
+        if (OrigenSeleccionado != null)
+        {
+            OrigenSeleccionado.Nombre = NombreDelOrigen;
+            OrigenSeleccionado.Origen = RutaDeOrigen;
+
+
+
+        }
     }
-} 
+}
+
+
+// commit -m "ejemplo de databindig en una collecion de objetos"

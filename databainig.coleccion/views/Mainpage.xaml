@@ -1,324 +1,79 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:databainig.coleccion.views"
              xmlns:models ="clr-namespace:databainig.coleccion.models"
+             x:DataType="views:Mainpage"
              x:Class="databainig.coleccion.views.Mainpage"
              Title="Mainpage">
     <Grid 
-    BackgroundColor="White"
-    RowDefinitions="Auto, *, Auto"
-    Padding="16">
+        RowDefinitions="Auto, *, Auto"
+        Padding="16" >
 
-        <Grid
-    ColumnDefinitions="*, Auto, Auto" 
-    ColumnSpacing="4">
-
-            <Label
-        Text="Origenes del paquete" />
-
-            <Button
-        BorderWidth="1"
-        BorderColor="Green"
-        Grid.Column="1"
-        Text="+" 
-        TextColor="Green"
-        Clicked="OnAgregarButtonCliked"
-        BackgroundColor="White"/>
-
-            <Button
-        BorderWidth="1"
-        BorderColor="red"
-        TextColor="red"
-        Clicked="OnDelateButtonCliked"
-        BackgroundColor="White"
-        Grid.Column="2"
-        Text="X"/>
-
-        </Grid>
 
         <CollectionView
-        Grid.Row="1"
-            EmptyView="Aun  no se resgistran origenes del paquetes"
-        SelectionMode="Single"
-        x:Name="OrigenesListView"
-            SelectionChanged="OrigenesListView_SelectionChanged"
-          ItemsSource="{Binding Path=Origenes }"
-        BackgroundColor="Beige">
+            Grid.Row="1"
+            BackgroundColor="Teal"
+            ItemsSource="{Binding Path=Origenes}"
+            SelectionMode="Single"
+            x:Name="OrigenesLisView"
+            EmptyView="Aun no se registran origenes de paquetes"
+            SelectionChanged="OrigenesLisView_SelectionChanged"
+            SelectedItem="{Binding Path=OrigenSeleccionado}">
 
-
-            <!--<CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type models:OrigenDePaquete}">
-                    <Border
-                        Stroke="Blue"
-                        Padding="8"
-                        >
-                        <Grid
-                            RowDefinitions="Auto,*"
-                            ColumnDefinitions="Auto,Auto"
-                            <CheckBox
-                                Grid.RowSpan="2"
-                                IsChecked="False"/>
-                            <Label
-                                Grid.Column="1"
-                                Text="Empty"
-                                />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Text="Empty 2"/>
-
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:OrigenDePaquete">
+                    <Border Stroke="Blue" Padding="8">
+                        <Grid RowDefinitions="auto" 
+                              ColumnDefinitions="auto">
+                            <CheckBox IsChecked="{Binding EstaHabilitado}" Grid.RowSpan="2" />
+                            <Label Grid.Row="1" Text="{Binding Nombre}"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Origen}"/>
                         </Grid>
                     </Border>
-                </DataTemplate>    
-            </CollectionView.ItemTemplate>-->
-
-            <!--<ListView.ItemsSource>
-        <x:Array Type="{x:Type x:String}">
-        <x:String>Superman</x:String>
-        <x:String>Thor</x:String>
-        <x:String>Batman</x:String>
-        <x:String>Spiderman</x:String>
-
-        </x:Array>
-        </ListView.ItemsSource>-->
-            <!--
-
-        <ListView.ItemTemplate>
-        <DataTemplate>
-        <Label
-        Text=""
-        FontSize="16"/>
-        </DataTemplate>
-        </ListView.ItemTemplate>-->
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
 
         </CollectionView>
 
-        <Grid
-    Grid.Row="2"
-    RowDefinitions="Auto, Auto, Auto"
-    ColumnDefinitions="Auto, *, Auto">
 
-            <Label
-        Text="Nombre:" 
-        VerticalOptions="Center"/>
-            <Entry
-        Grid.Column="1" 
-                x:Name="NombreEntry"/>
-
-            <Label
-        Grid.Row="1"
-        Text="Origen:"
-        VerticalOptions="Center"/>
-            <Entry
-        Grid.Row="1"
-                x:Name="OrigenEntry"
-        Grid.Column="1" />
-
-            <Button
-        TextColor="Black"
-        BorderWidth="1"
-        BorderColor="Black"
-        BackgroundColor="White"
-        Grid.Row="1"
-        Grid.Column="2"
-               Clicked="OnActualizarButton_Clicked"
-        Text="Actualizar"/>
-
-        </Grid>
-
-    </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--<Grid 
-        RowDefinitions="Auto, *, Auto"
-        Padding="16">
         <Grid
             ColumnDefinitions="*, Auto, Auto" 
             ColumnSpacing="4">
 
             <Label
-                Text="Origenes del paquete" />
+                Text="Origenes del paquete" TextColor="Yellow" />
 
             <Button
                 Grid.Column="1"
-                Text="+" 
-                BackgroundColor="White"
-                TextColor="Green"
-                FontSize="20"
-                Clicked="OnAgregarButtonClicked"/>
+                Text="+"  TextColor="Green" FontSize="20" BackgroundColor="White" Clicked="OnAgregarButton_Clicked"/>
             <Button
                 Grid.Column="2"
-                Text="X"
-                BackgroundColor="White"
-                TextColor="Red"
-                FontSize="15"
-                Clicked="OnDeleteButtonCliked"/>
+                Text="X" TextColor="Red" BackgroundColor="White" Clicked="OnDeleteButton_Clicked"/>
         </Grid>
-        <CollectionView 
-         Grid.Row="1"
-         BackgroundColor="Red"
-         x:Name="origeneslistview"
-         SelectionMode="Single"
-         EmptyView="origenes del paquete"
-            SelectionChanged="origeneslistview_SelectionChanged"
-            >
-             --><!--<CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="{x:Type models:OrigenDePaquete}">
-                        <Border
-                            Stroke="BLue"
-                            Padding="8">
-                                <Grid
-                                    RowDefinitions="Auto, *"
-                                    ColumnDefinitions="Auto, Auto">
-                                    <CheckBox
-                                        IsChecked="False"/>
-                                    <Label
-                                        Grid.Column="1"
-                                        Text="Empty"/>
-                                    <Label
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Text="Empty 2"/>
-                                </Grid>
-                            </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>--> 
-            <!--<ListView.ItemsSource>
-      <x:Array Type ="{x:Type x:String}">
-          <x:String> superman </x:String>
-          <x:String>iroman</x:String>
-          <x:String>spiderman</x:String>
-          <x:String>thor</x:String>
-      </x:Array>
-  </ListView.ItemsSource>-->
-            <!--
-  <ListView.ItemTemplate>
-      <DataTemplate>
-          <Label
-              Text="no"
-              FontSize="16"/>
-      </DataTemplate>
-  </ListView.ItemTemplate>--><!--
-        </CollectionView>
-
-      
-
-        
         <Grid
             Grid.Row="2"
             RowDefinitions="Auto, Auto, Auto"
-            ColumnDefinitions="Auto, *, Auto"
-            >
+            ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
 
             <Label
-                Text="Nombre:" />
+                Text="Nombre:" TextColor="Black" Padding="10"/>
             <Entry
-                 Grid.Column="1" 
-                BackgroundColor="LightGray"
-                x:Name="nombreentry"/>
+                 Grid.Column="1"  BackgroundColor="White" TextColor="Black" x:Name="NombreEntry" Text="{Binding NombreDelOrigen}"/>
 
             <Label
                  Grid.Row="1"
-                 Text="Origen:" />
+                 Text="Origen:"  TextColor="Black" Padding="10"/>
             <Entry
                 Grid.Row="1"
-                Grid.Column="1" 
-                BackgroundColor="LightGrey"
-                x:Name="origenentry"/>
+                Grid.Column="1" BackgroundColor="White"  TextColor="Black" x:Name="OrigenEntry" Text="{Binding RutaDeOrigen}"/>
 
             <Button
                 Grid.Row="1"
                 Grid.Column="2"
-                 Text="Actualizar"
-                Clicked="botonactualizar"/>
+                 Text="Actualizar"  TextColor="Black" Clicked="OnActualizarButton_Clicked"/>
         </Grid>
 
 
-    </Grid>-->
+    </Grid>
 </ContentPage>
